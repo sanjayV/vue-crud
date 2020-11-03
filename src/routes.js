@@ -5,5 +5,5 @@ import AddProduct from './components/AddProduct.vue';
 export default [
     { path: '/', component: Products},
     { path: '/add', component: AddProduct},
-    { path: '/:id', component: ProductDetail}
+    { path: '/:id/:index', component: ProductDetail}
 ]

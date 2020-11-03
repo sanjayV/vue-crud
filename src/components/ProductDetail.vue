@@ -1,22 +1,51 @@
 <template>
   <div class="min-content product-detail">
+    <b-alert v-show="error" variant="danger" show>{{ error }}</b-alert>
     <b-card
-        img-src="https://picsum.photos/900/250/?image=3"
-        img-alt="Card Image"
+        v-bind:img-src="'https://picsum.photos/900/250/?image=' + productIndex"
+        img-alt="Product Image"
     >
-      <b-card-title>Card Title</b-card-title>
-      <b-card-sub-title class="mb-2">Card Sub Title</b-card-sub-title>
+      <b-card-title>{{ product.name }}</b-card-title>
+      <b-card-sub-title class="mb-2">{{ product.price }}</b-card-sub-title>
       <b-card-text>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
+        {{ product.desc }}
       </b-card-text>
+      <template #footer>
+        <div class="d-flex flex-row">
+            <div class="mr-auto p-2">
+                <small class="text-muted">{{ product.created_date | timeAgo }}</small>
+            </div>
+        </div>
+      </template>
     </b-card>
   </div>
 </template>
 
 <script>
+import mixin from '../mixins/mixin';
+
 export default {
-  
+  data() {
+    return {
+        id: this.$route.params.id,
+        productIndex: this.$route.params.index,
+        product: {},
+        error: ""
+    }
+  },
+  created() {
+    this.dataLoading = true;
+    this.$http.get('https://accedo-video-app-api.herokuapp.com/getProduct/' + this.id).then((data) => {
+        if (data && data.data) {
+            this.product = data.data;
+        } else {
+            this.error = "Error in load data. Please refresh page again.";
+        }
+    }).catch(() => {
+        this.error = "Error in load data. Please refresh page again.";
+    });
+  },
+  mixins: [mixin]
 }
 </script>
 

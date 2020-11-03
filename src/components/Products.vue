@@ -21,7 +21,7 @@
                     <b-card-title>{{ product.name }}</b-card-title>
                     <b-card-sub-title class="mb-2">{{ product.price }}</b-card-sub-title>
                     <b-card-text>
-                        {{ product.desc | limitedChar(100) }}
+                        {{ product.desc | limitedChar(100) }}<router-link v-bind:to="'/' + product._id + '/' + index"><small>View more</small></router-link>
                     </b-card-text>
 
                     <template #footer>
@@ -34,7 +34,7 @@
                                 <b-spinner v-show="deleteInProgress" small variant="danger"></b-spinner>
                             </div>
                             <div class="p-2" v-b-tooltip.hover title="View Product">
-                                <router-link v-bind:to="'/' + product._id">
+                                <router-link v-bind:to="'/' + product._id + '/' + index">
                                     <b-icon icon="eye-fill"></b-icon>
                                 </router-link>
                             </div>
