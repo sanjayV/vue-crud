@@ -43,7 +43,10 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" class="mr-2" variant="primary">Submit</b-button>
+      <b-button type="submit" class="mr-2" variant="primary" v-bind:disabled="saveInProgress">
+          <span v-show="!saveInProgress">Submit</span>
+          <b-spinner v-show="saveInProgress" small></b-spinner>
+      </b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </div>
@@ -53,18 +56,37 @@
 export default {
   data() {
       return {
-          product: {},
+          product: {
+              name: "",
+              desc: "",
+              price: ""
+          },
+          saveInProgress: false,
           dismissSecs: 3,
           dismissCountDown: 0
       }
   },
   methods: {
       onSubmit(e) {
-          e.preventDefault();
-          this.dismissCountDown = this.dismissSecs
+        e.preventDefault();
+        const req = {...this.product};
+        this.saveInProgress = true;
+        this.$http.post('https://accedo-video-app-api.herokuapp.com/addProduct', req).then((data) => {
+        if (data && data.status && data.status == 200) {
+            this.saveInProgress = false;
+            this.dismissCountDown = this.dismissSecs
+            this.onReset();
+        }
+        }).catch(() => {
+            this.saveInProgress = false;
+        });
       },
       onReset() {
-          //
+          this.product = {
+              name: "",
+              desc: "",
+              price: ""
+          };
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
