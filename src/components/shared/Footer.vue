@@ -18,15 +18,15 @@ export default {
 <style scoped>
 .hidden-footer {
     width: 100%;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 .footer {
     position: fixed;
     bottom: 0;
     text-align: center;
     width: 100%;
-    height: 60px;
-    line-height: 60px;
+    height: 40px;
+    line-height: 40px;
     background-color: #f5f5f5;
 }
 .footer a {
