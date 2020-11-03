@@ -108,5 +108,7 @@ export default {
 }
 .search {
     width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 }
 </style>
